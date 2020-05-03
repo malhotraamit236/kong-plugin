@@ -17,13 +17,19 @@ local plugin = {
   VERSION = "0.1",
 }
 
+local function table_length(tab)
+  local count = 0
+  for _ in pairs(tab) do count = count + 1 end
+  return count
+end
 
-
--- do initialization here, any module level code runs in the 'init_by_lua_block',
--- before worker processes are forked. So anything you add here will run once,
--- but be available in all workers.
-
-
+local function evaluate_and_condition(current_condition, all_headers)
+  local result = true
+  for k, v in pairs(current_condition) do
+    result = result and (all_headers[k] == v)
+  end
+  return result
+end
 
 ---[[ handles more initialization, but AFTER the worker process has been forked/created.
 -- It runs in the 'init_worker_by_lua_block'
@@ -35,44 +41,31 @@ function plugin:init_worker()
 end --]]
 
 
-
---[[ runs in the ssl_certificate_by_lua_block handler
-function plugin:certificate(plugin_conf)
-
-  -- your custom code here
-  kong.log.debug("saying hi from the 'certificate' handler")
-
-end --]]
-
-
-
---[[ runs in the 'rewrite_by_lua_block'
--- IMPORTANT: during the `rewrite` phase neither `route`, `service`, nor `consumer`
--- will have been identified, hence this handler will only be executed if the plugin is
--- configured as a global plugin!
-function plugin:rewrite(plugin_conf)
-
-  -- your custom code here
-  kong.log.debug("saying hi from the 'rewrite' handler")
-
-end --]]
-
-
-
 ---[[ runs in the 'access_by_lua_block'
-function plugin:access(plugin_conf)
+function plugin:access(conf)
 
   -- your custom code here
-  kong.log.inspect(" configuration: ", plugin_conf)   -- check the logs for a pretty-printed config!
-  ngx.req.set_header(plugin_conf.request_header, "this is on a request")
-  local custom_header = kong.request.get_header("x-fteng")
-  kong.log.inspect("fteng")
-  kong.log.inspect(custom_header)
-  if custom_header and custom_header == "joker" then
-    kong.log.inspect("joker")
-    kong.service.set_upstream("upstreamA")
+  kong.log.inspect(" configuration: ", conf)   -- check the logs for a pretty-printed config!
+  
+  all_headers = kong.request.get_headers()
+  
+  local target_upstream = ""
+  local max_anded_count = 0
+  for _, rule in ipairs(conf.rules) do 
+    local current_condition = rule.condition
+    local is_condition_satisfied = evaluate_and_condition(current_condition, all_headers)
+    if is_condition_satisfied then
+      local current_condition_length = table_length(current_condition)
+      if current_condition_length > max_anded_count then
+        max_anded_count = current_condition_length
+        target_upstream = rule.upstream_name
+        kong.log.inspect("target_upstream: ", rule.upstream_name)
+      end 
+    end
   end
-
+  if target_upstream then
+    kong.log.inspect("target_upstream: ", target_upstream)
+  end
 end --]]
 
 
