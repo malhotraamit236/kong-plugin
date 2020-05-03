@@ -1,4 +1,4 @@
-local utils = require "kong.plugins.myplugin.utils"
+local utils = require "kong.plugins.usher.utils"
 local _M = {}
 
 local function evaluate_and_condition(current_condition, all_headers)

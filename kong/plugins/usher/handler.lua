@@ -1,4 +1,4 @@
-local access = require "kong.plugins.myplugin.access"
+local access = require "kong.plugins.usher.access"
 local plugin = {
   PRIORITY = 1000, -- set the plugin priority, which determines plugin execution order
   VERSION = "0.1",
