@@ -63,8 +63,15 @@ end --]]
 function plugin:access(plugin_conf)
 
   -- your custom code here
-  kong.log.inspect(plugin_conf)   -- check the logs for a pretty-printed config!
+  kong.log.inspect(" configuration: ", plugin_conf)   -- check the logs for a pretty-printed config!
   ngx.req.set_header(plugin_conf.request_header, "this is on a request")
+  local custom_header = kong.request.get_header("x-fteng")
+  kong.log.inspect("fteng")
+  kong.log.inspect(custom_header)
+  if custom_header and custom_header == "joker" then
+    kong.log.inspect("joker")
+    kong.service.set_upstream("upstreamA")
+  end
 
 end --]]
 
@@ -73,7 +80,7 @@ end --]]
 function plugin:header_filter(plugin_conf)
 
   -- your custom code here, for example;
-  ngx.header[plugin_conf.response_header] = "this is on the response"
+  ngx.header[plugin_conf.response_header] = "this is on the response with code change"
 
 end --]]
 
