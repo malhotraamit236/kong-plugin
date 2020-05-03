@@ -11,7 +11,7 @@ end
 
 
 function _M.execute(conf)
-  all_headers = kong.request.get_headers()
+  local all_headers = kong.request.get_headers()
   
   local target_upstream = ""
   local max_anded_count = 0

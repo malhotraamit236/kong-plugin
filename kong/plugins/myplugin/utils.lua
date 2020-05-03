@@ -1,4 +1,5 @@
 local utils = {}
+local lower = string.lower
 
 function utils.table_length(tab)
   local count = 0
