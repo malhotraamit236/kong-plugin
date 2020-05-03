@@ -1,28 +1,15 @@
 local typedefs = require "kong.db.schema.typedefs"
+local utils = require "kong.plugins.myplugin.utils"
 local lower = string.lower
 
 -- Grab pluginname from module name
 local plugin_name = ({...})[1]:match("^kong%.plugins%.([^%.]+)")
 
-local function table_length(tab)
-  local count = 0
-  for _ in pairs(tab) do count = count + 1 end
-  return count
-end
-
-local function get_case_insensitive_set(tab)
-  local keyset = {}
-  for k,v in pairs(tab) do
-    keyset[lower(k)]=v
-  end
-  return keyset
-end
-
 local function validate_rules(r)
   
-  local original_keys_length = table_length(r.condition)
-  local case_insensitive_keys_set = get_case_insensitive_set(r.condition)
-  local case_insensitive_keys_length = table_length(case_insensitive_keys_set)
+  local original_keys_length = utils.table_length(r.condition)
+  local case_insensitive_keys_set = utils.get_case_insensitive_set(r.condition)
+  local case_insensitive_keys_length = utils.table_length(case_insensitive_keys_set)
   if original_keys_length ~= case_insensitive_keys_length then
     return nil, "duplicate headers detected in one of the conditions"
   end
