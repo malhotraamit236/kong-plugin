@@ -14,3 +14,8 @@ Please check out those repos `README` files for usage instructions.
 
 [badge-travis-url]: https://travis-ci.org/Kong/kong-plugin/branches
 [badge-travis-image]: https://travis-ci.com/Kong/kong-plugin.svg?branch=master
+
+
+http POST :8001/services/example_service/plugins \
+  name=usher \
+  config:='{"rules":[{"condition": {"X-Country":"Italy"}, "upstream_name":"italy_cluster"},{"condition": {"X-Country":"Italy", "X-Region":"Milan"}, "upstream_name":"milan_cluster"}]}'
