@@ -17,7 +17,7 @@ Please check out those repos `README` files for usage instructions.
 
 http POST :8001/services/example_service/plugins \
   name=usher \
-  config:='{"rules":[{"condition": {"X-Country":"Italy"}, "upstream_name":"italy_cluster"},{"condition": {"X-Country":"Italy", "X-Region":"Milan"}, "upstream_name":"milan_cluster"}]}'
+  config:='{"rules":[{"condition": {"X-Country":"Italy"}, "upstream_name":"italy_cluster"},{"condition": {"X-Country":"Italy", "X-Region":"Milan"}, "upstream_name":"milan_cluster"},{"condition": {"X-Country":"Italy", "X-Region":"Venice"}, "upstream_name":"venice_cluster"}]}'
 
 explain this:
 if num_of_given_header_keys ~= num_of_case_insensitive_header_keys then
