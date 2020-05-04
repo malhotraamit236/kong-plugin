@@ -75,8 +75,7 @@ describe(PLUGIN_NAME .. ": (schema)", function()
     local ok, err = validate({
         rules = {
           {
-            condition = {
-            },
+            condition = {},
             upstream_name = "uk_cluster"
           },
           {
@@ -115,7 +114,7 @@ describe(PLUGIN_NAME .. ": (schema)", function()
   end)
 
 
-  it("rejects config with header key missing in a condition specified in a rule", function()
+  it("rejects config with header key missing in a condition of a rule", function()
     local ok, err = validate({
         rules = {
           {
@@ -138,7 +137,7 @@ describe(PLUGIN_NAME .. ": (schema)", function()
   end)
 
 
-  it("rejects config with empty header value in a condition specified in a rule", function()
+  it("rejects config with empty header value in a condition of a rule", function()
     local ok, err = validate({
         rules = {
           {
@@ -160,7 +159,7 @@ describe(PLUGIN_NAME .. ": (schema)", function()
   end)
 
 
-  it("rejects config with nil header value in a condition specified in a rule", function()
+  it("rejects config with nil header value in a condition of a rule", function()
     local ok, err = validate({
         rules = {
           {
@@ -179,6 +178,53 @@ describe(PLUGIN_NAME .. ": (schema)", function()
       })
     assert.is_nil(ok)
     assert.is_truthy(err)
+  end)
+
+
+  it("rejects config with a duplicate by case set of headers in a rule", function()
+    local ok, err = validate({
+        rules = {
+          {
+            condition = {
+              ["X-Location"] = "London",
+              ["x-LocaTion"] = "Toronto",
+            },
+            upstream_name = "uk_cluster"
+          },
+          {
+            condition = {
+              ["X-Location"] = "Toronto"
+            },
+            upstream_name = "canada_cluster"
+          }
+        }
+      })
+    assert.is_nil(ok)
+    assert.is_truthy(err)
+  end)
+
+
+  it("accepts config with duplicate headers if case matches exactly in a rule", function()
+    local ok, err = validate({
+        rules = {
+          {
+            condition = {
+              ["X-Location"] = "London",
+              ["X-Location"] = "Toronto",
+            },
+            upstream_name = "uk_cluster"
+          },
+          {
+            condition = {
+              ["X-Location"] = "Toronto"
+            },
+            upstream_name = "canada_cluster"
+          }
+        }
+      })
+    assert.is_nil(err)
+    assert.is_truthy(ok)
+    assert.are.equal(ok.config.rules[1].condition["X-Location"], "Toronto")
   end)
 
 
