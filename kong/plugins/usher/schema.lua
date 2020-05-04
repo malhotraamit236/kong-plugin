@@ -1,28 +1,29 @@
 local typedefs = require "kong.db.schema.typedefs"
 local utils = require "kong.plugins.usher.utils"
+local pl_pretty_write = require("pl.pretty").write
 
 -- Grab pluginname from module name
 local plugin_name = ({...})[1]:match("^kong%.plugins%.([^%.]+)")
 
-local function validate_rules(r)
-  
-  local original_keys_length = utils.table_length(r.condition)
-  local case_insensitive_keys_set = utils.get_case_insensitive_set(r.condition)
+local function validate_condition(condition)
+  local original_keys_length = utils.table_length(condition)
+  local case_insensitive_keys_set = utils.get_case_insensitive_set(condition)
   local case_insensitive_keys_length = utils.table_length(case_insensitive_keys_set)
-  if original_keys_length ~= case_insensitive_keys_length then
-    return nil, "duplicate headers detected in one of the conditions"
-  end
 
+  if original_keys_length ~= case_insensitive_keys_length then
+    return nil, "duplicate headers in this condition: " ..  pl_pretty_write(condition)
+  end
   return true
 end
 
 local condition_record = {
   type = "map",
   required = true,
-  keys = typedefs.header_name ,
+  keys = typedefs.header_name,
   values = {
     type = "string"
-  }
+  },
+  custom_validator = validate_condition
 }
 
 local rules_array = {
@@ -33,8 +34,7 @@ local rules_array = {
     fields = {
       { condition = condition_record },
       { upstream_name = typedefs.name }
-    },
-    custom_validator = validate_rules
+    }
   }
 }
 
