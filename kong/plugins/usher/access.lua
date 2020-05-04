@@ -27,7 +27,7 @@ function _M.execute(conf)
       end 
     end
   end
-  if target_upstream then
+  if target_upstream and target_upstream ~= "" then
     kong.log.inspect("target_upstream: ", target_upstream)
     kong.service.set_upstream(target_upstream)
   end
