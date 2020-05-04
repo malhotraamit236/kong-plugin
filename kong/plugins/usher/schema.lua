@@ -7,12 +7,15 @@ local pl_tablex_size = require("pl.tablex").size
 local plugin_name = ({...})[1]:match("^kong%.plugins%.([^%.]+)")
 
 local function validate_condition(condition)
-  local original_keys_length = pl_tablex_size(condition)
-  local case_insensitive_keys_set = utils.get_case_insensitive_set(condition)
-  local case_insensitive_keys_length = pl_tablex_size(case_insensitive_keys_set)
+  local num_of_given_header_keys = pl_tablex_size(condition)
 
-  if original_keys_length ~= case_insensitive_keys_length then
+  local case_insensitive_hearder_keys_set = utils.get_case_insensitive_set(condition)
+  local num_of_case_insensitive_header_keys = pl_tablex_size(case_insensitive_hearder_keys_set)
+
+  if num_of_given_header_keys ~= num_of_case_insensitive_header_keys then
     return nil, "Duplicate headers with different case found in condition: " ..  pl_pretty_write(condition)
+  elseif num_of_given_header_keys < 1 then
+    return nil, "Empty condition" ..  pl_pretty_write(condition)
   end
   return true
 end
@@ -20,9 +23,10 @@ end
 local condition_record = {
   type = "map",
   required = true,
-  keys = typedefs.header_name,
+  keys = typedefs.header_name { required = true },
   values = {
-    type = "string"
+    type = "string",
+    required = true
   },
   custom_validator = validate_condition
 }
