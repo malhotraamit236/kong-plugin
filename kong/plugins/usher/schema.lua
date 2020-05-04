@@ -33,7 +33,7 @@ local rules_array = {
     type = "record",
     fields = {
       { condition = condition_record },
-      { upstream_name = typedefs.name }
+      { upstream_name = typedefs.name { required = true } }
     }
   }
 }
