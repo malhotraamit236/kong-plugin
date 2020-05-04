@@ -204,30 +204,6 @@ describe(PLUGIN_NAME .. ": (schema)", function()
   end)
 
 
-  it("accepts config with duplicate headers if case matches exactly in a rule", function()
-    local ok, err = validate({
-        rules = {
-          {
-            condition = {
-              ["X-Location"] = "London",
-              ["X-Location"] = "Toronto",
-            },
-            upstream_name = "uk_cluster"
-          },
-          {
-            condition = {
-              ["X-Location"] = "Toronto"
-            },
-            upstream_name = "canada_cluster"
-          }
-        }
-      })
-    assert.is_nil(err)
-    assert.is_truthy(ok)
-    assert.are.equal(ok.config.rules[1].condition["X-Location"], "Toronto")
-  end)
-
-
   it("rejects config with no upstream specified in a rule", function()
     local ok, err = validate({
         rules = {
