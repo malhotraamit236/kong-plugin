@@ -11,30 +11,28 @@ for _, strategy in helpers.each_strategy() do
     lazy_setup(function()
       
       local bp = helpers.get_db_utils(strategy, nil, { PLUGIN_NAME })
-
+      
       local upstream1 = bp.upstreams:insert({
-        name = "europe_cluster",
-        service = service1
-      })
-      local target1 = bp.targets:insert({
-        target = helpers.mock_upstream_host..":"..helpers.mock_upstream_port,
-        upstream = upstream1
+        name = "europe_cluster"
       })
       local service1 = bp.services:insert({
         name = "example_service",
         host = upstream1.name
       })
+      bp.targets:insert({
+        target = helpers.mock_upstream_host..":"..helpers.mock_upstream_port,
+        upstream = upstream1
+      })
       
       local upstream2 = bp.upstreams:insert({
         name = "italy_cluster"
       })
-      local target2 = bp.targets:insert({
+      bp.targets:insert({
         target = helpers.mock_upstream_host..":"..helpers.mock_upstream_port,
         upstream = upstream2
       })
       
-
-      local route1 = bp.routes:insert({
+      bp.routes:insert({
         name = "localroute",
         paths = {"/local"},
         service = service1
