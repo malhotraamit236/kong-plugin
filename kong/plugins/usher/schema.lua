@@ -11,7 +11,7 @@ local function validate_condition(condition)
   local case_insensitive_keys_length = utils.table_length(case_insensitive_keys_set)
 
   if original_keys_length ~= case_insensitive_keys_length then
-    return nil, "Header keys are case-insensitive. Duplicate headers found: " ..  pl_pretty_write(condition)
+    return nil, "Duplicate headers with different case found in condition: " ..  pl_pretty_write(condition)
   end
   return true
 end
