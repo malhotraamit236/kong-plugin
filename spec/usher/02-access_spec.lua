@@ -9,19 +9,42 @@ for _, strategy in helpers.each_strategy() do
     local client
 
     lazy_setup(function()
-
+      
       local bp = helpers.get_db_utils(strategy, nil, { PLUGIN_NAME })
 
-      -- Inject a test route. No need to create a service, there is a default
-      -- service which will echo the request.
-      local route1 = bp.routes:insert({
-        hosts = { "test1.com" },
+      local upstream1 = bp.upstreams:insert({
+        name = "europe_cluster",
+        service = service1
       })
-      -- add the plugin to test to the route we created
+      local target1 = bp.targets:insert({
+        target = helpers.mock_upstream_host..":"..helpers.mock_upstream_port,
+        upstream = upstream1
+      })
+      local service1 = bp.services:insert({
+        name = "example_service",
+        host = upstream1.name
+      })
+      
+      local upstream2 = bp.upstreams:insert({
+        name = "italy_cluster"
+      })
+      local target2 = bp.targets:insert({
+        target = helpers.mock_upstream_host..":"..helpers.mock_upstream_port,
+        upstream = upstream2
+      })
+      
+
+      local route1 = bp.routes:insert({
+        name = "localroute",
+        paths = {"/local"},
+        service = service1
+      })
+
+      
       bp.plugins:insert {
         name = PLUGIN_NAME,
-        route = { id = route1.id },
-        config = {},
+        service = { id = service1.id },
+        config = { rules = {{ condition = {["X-Region"] = "Italy"}, upstream_name = "italy_cluster" }} },
       }
 
       -- start kong
@@ -50,36 +73,18 @@ for _, strategy in helpers.each_strategy() do
 
 
     describe("request", function()
-      it("gets a 'hello-world' header", function()
-        local r = client:get("/request", {
+      it("first test", function()
+        local r = client:get("/local", {
           headers = {
-            host = "test1.com"
+            ["X-Region"] = "Italy"
           }
         })
-        -- validate that the request succeeded, response status 200
         assert.response(r).has.status(200)
-        -- now check the request (as echoed by mockbin) to have the header
-        local header_value = assert.request(r).has.header("hello-world")
-        -- validate the value of that header
-        assert.equal("this is on a request", header_value)
       end)
-    end)
 
-
-
-    describe("response", function()
-      it("gets a 'bye-world' header", function()
-        local r = client:get("/request", {
-          headers = {
-            host = "test1.com"
-          }
-        })
-        -- validate that the request succeeded, response status 200
+      it("first test", function()
+        local r = client:get("/local", {})
         assert.response(r).has.status(200)
-        -- now check the response to have the header
-        local header_value = assert.response(r).has.header("bye-world")
-        -- validate the value of that header
-        assert.equal("this is on the response", header_value)
       end)
     end)
 
