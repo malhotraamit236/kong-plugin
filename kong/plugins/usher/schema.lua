@@ -33,7 +33,8 @@ local condition_record = {
 
 local rules_array = {
   type = "array",
-  default = {},
+  required = true,
+  len_min = 1,
   elements = {
     type = "record",
     fields = {
