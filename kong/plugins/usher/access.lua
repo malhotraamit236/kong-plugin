@@ -1,4 +1,4 @@
-local utils = require "kong.plugins.usher.utils"
+local pl_tablex_size = require("pl.tablex").size
 local _M = {}
 
 local function evaluate_and_condition(current_condition, all_headers)
@@ -19,16 +19,14 @@ function _M.execute(conf)
     local current_condition = rule.condition
     local is_condition_satisfied = evaluate_and_condition(current_condition, all_headers)
     if is_condition_satisfied then
-      local current_condition_length = utils.table_length(current_condition)
+      local current_condition_length = pl_tablex_size(current_condition)
       if current_condition_length > max_anded_count then
         max_anded_count = current_condition_length
         target_upstream = rule.upstream_name
-        kong.log.inspect("max_anded_upstream: ", rule.upstream_name)
       end 
     end
   end
   if target_upstream and target_upstream ~= "" then
-    kong.log.inspect("target_upstream: ", target_upstream)
     kong.service.set_upstream(target_upstream)
   end
 end
