@@ -232,7 +232,7 @@ The config looks like this:
 2. With `X-Country=Italy`
     | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
     | -------- | --------------------------- | --------------------- | -------------------- |
-    | `/local` | `X-Country=Italy`          | `italy_cluster`      | httpbin.org          |
+    | `/local` | `X-Country=Italy`           | `italy_cluster`       | httpbin.org          |
     ```shell 
     $ http GET :8000/local X-Country:Italy
     
@@ -255,9 +255,9 @@ The config looks like this:
     ...
     ```
 3. With `X-Country=Italy` and X-Region=Milan
-    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
-    | -------- | --------------------------- | --------------------- | -------------------- |
-    | `/local` | `X-Country=Italy` <br> `X-Region=Milan`  | `milan_cluster`     | requestbin.com          |
+    | `Route`  | Custom HTTP Request Headers             | Proxied to `Upstream` | Response from Target |
+    | -------- | --------------------------------------- | --------------------- | -------------------- |
+    | `/local` | `X-Country=Italy` <br> `X-Region=Milan` | `milan_cluster`       | requestbin.com       |
     ```shell 
     $ http GET :8000/local X-Country:Italy X-Region:Milan
     
@@ -286,9 +286,9 @@ The config looks like this:
     ...
     ```
 4. With `X-Country=Italy` and X-Region=Venice
-    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
-    | -------- | --------------------------- | --------------------- | -------------------- |
-    | `/local` | `X-Country=Italy` <br> `X-Region=Venice`  | `venice_cluster`     | postb.in          |
+    | `Route`  | Custom HTTP Request Headers              | Proxied to `Upstream` | Response from Target |
+    | -------- | ---------------------------------------- | --------------------- | -------------------- |
+    | `/local` | `X-Country=Italy` <br> `X-Region=Venice` | `venice_cluster`      | postb.in             |
     ```shell 
     $ http GET :8000/local X-Country:Italy X-Region:Venice
     
