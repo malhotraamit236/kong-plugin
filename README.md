@@ -12,8 +12,8 @@ This template was designed to work with the
 
 Please check out those repos `README` files for usage instructions.
 
-[badge-travis-url]: https://travis-ci.org/Kong/kong-plugin/branches
-[badge-travis-image]: https://travis-ci.com/Kong/kong-plugin.svg?branch=master
+[badge-travis-url]: https://travis-ci.org/malhotraamit236/kong-plugin
+[badge-travis-image]: https://travis-ci.org/malhotraamit236/kong-plugin.svg?branch=master
 
 http POST :8001/services/example_service/plugins \
   name=usher \
