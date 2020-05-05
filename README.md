@@ -204,7 +204,7 @@ The config looks like this:
 ```
 ### Test cases
 1. No custom header
-    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Respinse from Target |
+    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
     | -------- | --------------------------- | --------------------- | -------------------- |
     | `/local` | *no custom header*          | `europe_cluster`      | mockbin.org          |
     ```shell 
@@ -230,7 +230,7 @@ The config looks like this:
     ...
     ```
 2. With `X-Country=Italy`
-    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Respinse from Target |
+    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
     | -------- | --------------------------- | --------------------- | -------------------- |
     | `/local` | `X-Country=Italy`          | `italy_cluster`      | httpbin.org          |
     ```shell 
@@ -255,7 +255,7 @@ The config looks like this:
     ...
     ```
 3. With `X-Country=Italy` and X-Region=Milan
-    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Respinse from Target |
+    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
     | -------- | --------------------------- | --------------------- | -------------------- |
     | `/local` | `X-Country=Italy` <br> `X-Region=Milan`  | `milan_cluster`     | requestbin.com          |
     ```shell 
@@ -286,7 +286,7 @@ The config looks like this:
     ...
     ```
 4. With `X-Country=Italy` and X-Region=Venice
-    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Respinse from Target |
+    | `Route`  | Custom HTTP Request Headers | Proxied to `Upstream` | Response from Target |
     | -------- | --------------------------- | --------------------- | -------------------- |
     | `/local` | `X-Country=Italy` <br> `X-Region=Venice`  | `venice_cluster`     | postb.in          |
     ```shell 
