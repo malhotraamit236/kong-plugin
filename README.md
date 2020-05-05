@@ -315,3 +315,35 @@ The config looks like this:
 
     ...
     ```
+5. With `X-Country=Italy` and `X-Region=Venice` and `X-Region=Milan`. This is a special scenario where
+    duplicate header names appear in a Request. In this case the header that appears last in the
+    request is considered for matching.
+    | `Route`  | Custom HTTP Request Headers                                   | Proxied to `Upstream` | Response from Target |
+    | -------- | ------------------------------------------------------------- | --------------------- | -------------------- |
+    | `/local` | `X-Country=Italy` <br> `X-Region=Venice`<br> `X-Region=Milan` | `venice_cluster`      | requestbin.com       |
+    ```shell 
+    $ http GET :8000/local X-Country:Italy X-Region:Venice X-Region:Milan
+    
+    HTTP/1.1 301 Moved Permanently
+    Connection: keep-alive
+    Content-Length: 183
+    Content-Type: text/html
+    Date: Tue, 05 May 2020 22:20:07 GMT
+    Location: https://requestbin.com/
+    Server: CloudFront
+    Via: kong/2.0.4
+    X-Amz-Cf-Id: pDX-LQWU0Lk3E080BCb3_rVvlyNOxmhSAgayswcv9vwuyjHtHdZVbg==
+    X-Amz-Cf-Pop: YTO50-C1
+    X-Cache: Redirect from cloudfront
+    X-Kong-Proxy-Latency: 0
+    X-Kong-Upstream-Latency: 34
+
+    <html>
+    <head><title>301 Moved Permanently</title></head>
+    <body bgcolor="white">
+    <center><h1>301 Moved Permanently</h1></center>
+    <hr><center>CloudFront</center>
+    </body>
+
+    ...
+    ```
