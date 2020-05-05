@@ -254,7 +254,7 @@ The config looks like this:
     
     ...
     ```
-3. With `X-Country=Italy` and X-Region=Milan
+3. With `X-Country=Italy` and `X-Region=Milan`
     | `Route`  | Custom HTTP Request Headers             | Proxied to `Upstream` | Response from Target |
     | -------- | --------------------------------------- | --------------------- | -------------------- |
     | `/local` | `X-Country=Italy` <br> `X-Region=Milan` | `milan_cluster`       | requestbin.com       |
@@ -285,7 +285,7 @@ The config looks like this:
 
     ...
     ```
-4. With `X-Country=Italy` and X-Region=Venice
+4. With `X-Country=Italy` and `X-Region=Venice`
     | `Route`  | Custom HTTP Request Headers              | Proxied to `Upstream` | Response from Target |
     | -------- | ---------------------------------------- | --------------------- | -------------------- |
     | `/local` | `X-Country=Italy` <br> `X-Region=Venice` | `venice_cluster`      | postb.in             |
