@@ -38,18 +38,18 @@ except requests that contain `X-Country = Italy` will be proxied to Upstream `it
 ## Configuration
 This plugin has been tested by enabling on `Service` object. In that context, following paramters
 can be used for configuration.
-| **Parameter**  | **Description**                                         |
-| -------------- | ------------------------------------------------------- |
-| `name`         | The name of the plugin to use - `usher` for this plugin |
-| `service.id`   | The ID of the Service the plugin targets.               |
-| `config.rules` | List of rules                                           |
+| **Parameter**                  | **Description**                                         |
+| ------------------------------ | ------------------------------------------------------- |
+| `name`                         | The name of the plugin to use - `usher` for this plugin |
+| `service.id`                   | The ID of the Service the plugin targets.               |
+| `config.rules`<br>*(required)* | List of rules                                           |
 
 ### Rules
 `config.rules` takes a list of rules and each rule has two mandatory properties:
-| **Property**    | **Description**                                                                     |
-| --------------- | ----------------------------------------------------------------------------------- |
-| `condition`     | Map of header name and value pairs where header name is the key                     |
-| `upstream_name` | `name` of the `Upstream` object which load-balances traffic on its `Target` objects |
+| **Property**                                                                                  | **Description**                                                                     |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `condition`<br>*(required)*<br>*(duplicate header names<br> with differing case not allowed)* | Map of header name and value pairs where header name is the key                     |
+| `upstream_name`<br>*(required)*                                                               | `name` of the `Upstream` object which load-balances traffic on its `Target` objects |
 
 The header name-value pairs given in a `condition` are evaluated with a logical AND. 
 The rule with a `condition` that has maximum ANDed header name-value match wins and request is proxied to
