@@ -36,7 +36,7 @@ Requests that match route `/local` will be proxied to `Upstream` `europe_cluster
 except requests that contain `X-Country = Italy` will be proxied to Upstream `italy_cluster`.
 
 ## Configuration
-This plugin has been tested by enabling on `Service` object. In that context, following paramters
+This plugin has been tested by enabling on `Service` object and works in `access` phase. In that context, following paramters
 can be used for configuration.
 | **Parameter**                  | **Description**                                         |
 | ------------------------------ | ------------------------------------------------------- |
