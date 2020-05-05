@@ -1,12 +1,13 @@
 [![Build Status][badge-travis-image]][badge-travis-url]
-[badge-travis-url]: https://travis-ci.org/malhotraamit236/kong-plugin
-[badge-travis-image]: https://travis-ci.org/malhotraamit236/kong-plugin.svg?branch=master
 
 Usher: Kong plugin to route requests based on HTTP Headers
 ================================================================
 
 Usher is a configurable Kong plugin that routes requests to different upstreams
 based on HTTP Header key-value pairs.
+
+[badge-travis-url]: https://travis-ci.org/malhotraamit236/kong-plugin
+[badge-travis-image]: https://travis-ci.org/malhotraamit236/kong-plugin.svg?branch=master
 
 - [Usher: Kong plugin to route requests based on HTTP Headers](#usher-kong-plugin-to-route-requests-based-on-http-headers)
   - [Terminology](#terminology)
