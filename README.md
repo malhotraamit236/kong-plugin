@@ -320,7 +320,7 @@ The config looks like this:
     request is considered for matching.
     | `Route`  | Custom HTTP Request Headers                                   | Proxied to `Upstream` | Response from Target |
     | -------- | ------------------------------------------------------------- | --------------------- | -------------------- |
-    | `/local` | `X-Country=Italy` <br> `X-Region=Venice`<br> `X-Region=Milan` | `venice_cluster`      | requestbin.com       |
+    | `/local` | `X-Country=Italy` <br> `X-Region=Venice`<br> `X-Region=Milan` | `milan_cluster`      | requestbin.com       |
     ```shell 
     $ http GET :8000/local X-Country:Italy X-Region:Venice X-Region:Milan
     
