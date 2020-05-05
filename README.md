@@ -89,6 +89,8 @@ We are going to demo following scenario:
 
 For the purpose of this demo we are building [`kong`](https://github.com/Kong/kong) and `usher` from source on a vagrant machine with [`kong-vagrant`](https://github.com/Kong/kong-vagrant). Also the demo uses [`HTTPie`](https://httpie.org/) but you an use `curl` as well.
 
+[![asciicast](https://asciinema.org/a/mJz2tOP5K7Li5JBtDsXQWauAi.svg)](https://asciinema.org/a/mJz2tOP5K7Li5JBtDsXQWauAi)
+
 ### Setup Kong Vagrant Environment
 - Download and Install [Vagrant](https://www.vagrantup.com/downloads.html) if not already installed. To check if it is already installed, try `vagrant version` in terminal.
 - Setup environment:
